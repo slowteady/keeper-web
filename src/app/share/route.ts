@@ -1,11 +1,15 @@
 import { NextResponse } from 'next/server';
 
+// 동적 렌더링 강제 (카카오톡 크롤러가 최신 데이터를 가져오도록)
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const GET = async (req: Request) => {
   const { searchParams } = new URL(req.url);
   const token = searchParams.get('token');
 
   let title = 'Keeper - 유기동물 입양의 첫걸음';
-  let desc = '유기동물들의 가족이 되어주세요.';
+  let desc = '유기동물들의 가족이 되어주세요';
   let image = process.env.NEXT_PUBLIC_DOMAIN + '/keeper-og.png';
   let path: string | null = null;
   let id: string | null = null;
@@ -39,25 +43,26 @@ export const GET = async (req: Request) => {
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         
-        <!-- Favicon -->
-        <link rel="icon" type="image/png" href="${process.env.NEXT_PUBLIC_DOMAIN || ''}/keeper-icon.png" />
-        <link rel="apple-touch-icon" href="${process.env.NEXT_PUBLIC_DOMAIN || ''}/keeper-icon.png" />
+        <title>${title}</title>
         
-        <!-- Basic Meta Tags -->
+        <!-- Basic Meta Tags (카카오톡이 먼저 읽음) -->
+        <meta name="title" content="${title}" />
         <meta name="description" content="${desc}" />
         
-        <!-- Open Graph (KakaoTalk Optimized) -->
+        <!-- Open Graph (KakaoTalk 필수) -->
         <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Keeper" />
-        <meta property="og:title" content="${title}" />
-        <meta property="og:description" content="${desc}" />
-        <meta property="og:image" content="${image}" />
-        <meta property="og:image:alt" content="${title}" />
-        <meta property="og:image:width" content="800" />
-        <meta property="og:image:height" content="400" />
         <meta property="og:url" content="${process.env.NEXT_PUBLIC_DOMAIN || ''}/share${
     token ? '?token=' + token : ''
   }" />
+        <meta property="og:title" content="${title}" />
+        <meta property="og:description" content="${desc}" />
+        <meta property="og:image" content="${image}" />
+        <meta property="og:image:secure_url" content="${image}" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="800" />
+        <meta property="og:image:height" content="400" />
+        <meta property="og:image:alt" content="${title}" />
+        <meta property="og:site_name" content="Keeper" />
         <meta property="og:locale" content="ko_KR" />
         
         <!-- Twitter Card -->
@@ -66,7 +71,9 @@ export const GET = async (req: Request) => {
         <meta name="twitter:description" content="${desc}" />
         <meta name="twitter:image" content="${image}" />
         
-        <title>${title}</title>
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="${process.env.NEXT_PUBLIC_DOMAIN || ''}/keeper-icon.png" />
+        <link rel="apple-touch-icon" href="${process.env.NEXT_PUBLIC_DOMAIN || ''}/keeper-icon.png" />
         
         <style>
           * {
@@ -168,6 +175,11 @@ export const GET = async (req: Request) => {
   `;
 
   return new NextResponse(html, {
-    headers: { 'Content-Type': 'text/html; charset=utf-8' }
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+      Pragma: 'no-cache',
+      Expires: '0'
+    }
   });
 };
