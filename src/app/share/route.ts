@@ -16,14 +16,18 @@ export const GET = async (req: Request) => {
 
   if (token) {
     try {
-      const decoded = JSON.parse(Buffer.from(token, 'base64').toString('utf-8'));
+      const base64 = token.replace(/-/g, '+').replace(/_/g, '/');
+      const padding = '='.repeat((4 - (base64.length % 4)) % 4);
+      const jsonString = Buffer.from(base64 + padding, 'base64').toString('utf-8');
+      const decoded = JSON.parse(jsonString);
+
       title = decoded.title || title;
       desc = decoded.desc || desc;
       image = decoded.image || image;
       path = decoded.path || null;
       id = decoded.id || null;
     } catch (e) {
-      console.error('토큰 파싱 실패:', e);
+      console.error('❌ 토큰 파싱 실패:', e);
     }
   }
 
