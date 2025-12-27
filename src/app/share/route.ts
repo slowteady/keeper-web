@@ -6,7 +6,7 @@ export const GET = async (req: Request) => {
 
   let title = 'Keeper - 유기동물 입양의 첫걸음';
   let desc = '유기동물들의 가족이 되어주세요.';
-  let image = process.env.NEXT_PUBLIC_DOMAIN + '/keeper-icon.png';
+  let image = process.env.NEXT_PUBLIC_DOMAIN + '/keeper-og.png';
   let path: string | null = null;
   let id: string | null = null;
 
@@ -43,11 +43,22 @@ export const GET = async (req: Request) => {
         <link rel="icon" type="image/png" href="${process.env.NEXT_PUBLIC_DOMAIN || ''}/keeper-icon.png" />
         <link rel="apple-touch-icon" href="${process.env.NEXT_PUBLIC_DOMAIN || ''}/keeper-icon.png" />
         
-        <!-- Open Graph -->
+        <!-- Basic Meta Tags -->
+        <meta name="description" content="${desc}" />
+        
+        <!-- Open Graph (KakaoTalk Optimized) -->
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Keeper" />
         <meta property="og:title" content="${title}" />
         <meta property="og:description" content="${desc}" />
         <meta property="og:image" content="${image}" />
-        <meta property="og:type" content="website" />
+        <meta property="og:image:alt" content="${title}" />
+        <meta property="og:image:width" content="800" />
+        <meta property="og:image:height" content="400" />
+        <meta property="og:url" content="${process.env.NEXT_PUBLIC_DOMAIN || ''}/share${
+    token ? '?token=' + token : ''
+  }" />
+        <meta property="og:locale" content="ko_KR" />
         
         <!-- Twitter Card -->
         <meta name="twitter:card" content="summary_large_image" />
@@ -56,60 +67,6 @@ export const GET = async (req: Request) => {
         <meta name="twitter:image" content="${image}" />
         
         <title>${title}</title>
-
-        <style>
-          * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-          }
-          body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #00D9A3 0%, #00B88A 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: white;
-          }
-          .container {
-            text-align: center;
-            padding: 40px 20px;
-            max-width: 500px;
-          }
-          .logo {
-            font-size: 80px;
-            margin-bottom: 20px;
-            animation: bounce 1s infinite;
-          }
-          h1 {
-            font-size: 24px;
-            margin-bottom: 16px;
-            font-weight: 700;
-          }
-          p {
-            font-size: 16px;
-            line-height: 1.6;
-            opacity: 0.9;
-            margin-bottom: 12px;
-          }
-          .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255,255,255,0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 30px auto;
-          }
-          @keyframes spin {
-            to { transform: rotate(360deg); }
-          }
-          @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-          }
-        </style>
       </head>
       <body>
         <div class="container">
