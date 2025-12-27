@@ -39,6 +39,10 @@ export const GET = async (req: Request) => {
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="${process.env.NEXT_PUBLIC_DOMAIN || ''}/keeper-icon.png" />
+        <link rel="apple-touch-icon" href="${process.env.NEXT_PUBLIC_DOMAIN || ''}/keeper-icon.png" />
+        
         <!-- Open Graph -->
         <meta property="og:title" content="${title}" />
         <meta property="og:description" content="${desc}" />

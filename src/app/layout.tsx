@@ -14,10 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Keeper',
-  description: '유기동물 입양의 첫걸음',
-  icons: {
-    icon: '/keeper-icon.png'
-  }
+  description: '유기동물 입양의 첫걸음'
 };
 
 export default function RootLayout({
