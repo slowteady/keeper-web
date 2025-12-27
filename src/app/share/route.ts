@@ -8,8 +8,8 @@ export const GET = async (req: Request) => {
   const { searchParams } = new URL(req.url);
   const token = searchParams.get('token');
 
-  let title = 'Keeper - 유기동물 입양의 첫걸음';
-  let desc = '유기동물들의 가족이 되어주세요';
+  let title = 'Keeper';
+  let desc = '유기동물 입양의 첫걸음';
   let image = process.env.NEXT_PUBLIC_DOMAIN + '/keeper-og.png';
   let path: string | null = null;
   let id: string | null = null;
