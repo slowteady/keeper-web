@@ -32,11 +32,18 @@ export const GET = async (req: Request) => {
   }
 
   // 딥링크 URL 생성
-  // path와 id가 있으면 해당 페이지로, 없으면 홈으로
-  const appUrl =
-    path && id
-      ? `keeper://${path}/${id}` // 특정 페이지
-      : 'keeper://'; // 홈
+  let appUrl = 'keeper://'; // 기본값: 홈
+
+  if (path && id) {
+    // path와 id가 모두 있는 경우 (예: 특정 게시글)
+    appUrl = `keeper://${path}/${id}`;
+  } else if (path) {
+    // path만 있는 경우 (예: community 페이지)
+    appUrl = `keeper://${path}`;
+  } else {
+    appUrl = 'keeper://home';
+  }
+
   const iosStoreUrl = process.env.NEXT_PUBLIC_IOS_STORE_URL;
   const androidStoreUrl = process.env.NEXT_PUBLIC_ANDROID_STORE_URL;
 
